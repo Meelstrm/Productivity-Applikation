@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: papayawhip;
+  background-color: papayawhip;    
 }
 
 .logo {
@@ -23,47 +23,67 @@ body {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+
 .todoWrapper {
-  background: #656569;
+  background:papayawhip;
   margin-top: 5rem;
   padding: 2rem;
   border-radius: 5px;
+  font-family: fantasy;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+  
+}
+h1 {
+  color: pink;
+  font-family: fantasy;
+  text-shadow:-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black ;
+}
+
+h3 {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: black;
+  text-shadow:-1px 0 pink, 0 1px pink, 1px 0 pink, 0 -1px pink ;
 }
 
 .addTodo {
   width: 100%;
   margin-bottom: 1rem;
+  font-family: fantasy;
 }
 
 .todoInput {
   outline: none;
-  background: none;
-  border: 1px solid #eeebf5;
+  background: pink;
+  border: 1px solid #ca69a8;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 300px;
-  color: #fff;
+  color: white;
+  font-family: fantasy;
 }
 
 .todoInput::placeholder {
-  color: #ffffff4d;
+  color: white;
+  font-family: fantasy;
 }
 
 .newTodoBtn {
-  background: #020007;
+  background: pink;
   color: #fff;
   border: none;
   padding: 0.55rem;
   cursor: pointer;
+  font-family: fantasy;
 }
 
 .todoList {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #060607;
-  color: #fff;
+  background: pink;
+  color: white;
+  font-family: fantasy;
   padding: 0.75rem 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
@@ -97,47 +117,51 @@ body {
 .statusInput {
   outline: none;
   background: none;
-  border: 1px solid #eeebf5;
+  border: 1px solid #ca69a8;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 300px;
-  color: #fff;
+  color: white;
+  font-family: fantasy;
   appearance: none; 
-  background-color: #656569; 
+  background-color: pink; 
   border-radius: 5px;
   cursor: pointer;
 }
 
 .statusInput option {
-  background: #656569;
+  background: rgb(248, 214, 219)
+  ;
 }
 
 
 .categoryInput {
   outline: none;
   background: none;
-  border: 1px solid #eeebf5;
+  border: 1px solid #ca69a8;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 300px;
-  color: #fff;
+  color: white;
+  font-family: fantasy;
   appearance: none; 
-  background-color: #656569; 
+  background-color: pink; 
   border-radius: 5px;
   cursor: pointer;
 }
 
 .categoryInput option {
-  background: #656569;
+  background: rgb(248, 214, 219);
 }
 
 
 .filterTodoBtn {
-  background-color: #656569;
-  color: #fff;
-  border: 1px solid #eeebf5; 
+  background-color: pink;
+  color:white;
+  font-family: fantasy;
+  border: 1px solid #ca69a8; 
   padding: 0.75rem 1.5rem;
   cursor: pointer;
   margin: 5px;
@@ -169,18 +193,21 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 1rem;
+
 }
 
 .filterTodoBtn-container .filterTodoBtn {
   margin: 5px 10px; 
+
 }
 
 
 .sortTodos select {
   outline: none;
-  background: #656569;
+  background: pink;
   border: 1px solid #eeebf5;
   color: #fff;
+  font-family: fantasy;
   padding: 0.5rem 1rem;
   width: 200px;
   margin: 1rem 0;
@@ -191,8 +218,9 @@ body {
 }
 
 .sortTodos select option {
-  background: #656569;
+  background: rgb(248, 214, 219);
   color: #fff;
+  font-family: fantasy;
 }
 
 .sortTodos select:focus {
@@ -204,6 +232,8 @@ body {
   justify-content: space-between;
   gap: 10px; 
   margin-bottom: 1.5rem;
+  background-color: papayawhip;
+
 }
 
 .sortTodos select:hover {
@@ -216,8 +246,9 @@ body {
   display: none; 
 }
 
+
 .sortTodos {
-  background-color: #656569;
+  background-color: papayawhip;
   border-radius: 5px;
   padding: 1rem;
   margin-bottom: 2rem;
@@ -233,6 +264,23 @@ body {
   margin: 10px 0;          
 }
 
+
+h3 {
+  color: pink;
+  font-style: italic;
+  text-shadow:-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black ;
+}
+
+
+h5, p {
+  color: rgb(30, 16, 28); 
+  font-family: 'Arial', sans-serif; 
+
+  font-weight: 600; 
+  letter-spacing: 0.05em; 
+  text-shadow: 1px 1px 3px srgba(0, 0, 0, 0.2); 
+
+}
 
 
 
@@ -300,49 +348,43 @@ body {
   box-shadow: 0 12px 16px 0 rgba(249, 122, 236, 0.938), 0 17px 50px 0 rgba(247, 138, 221, 0.905);
 }
 
-.deleteEventBtn {
-  background-color: #ff93e2;
-  border: 5px solid #ff0000;
-  border-radius: 15px;
-  color: rgb(255, 251, 251);
-  padding: 10px 24px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  font-family: 'Times New Roman', Times, serif;
-}
-
-.editEventBtn {
-  background-color: #ff93e2;
-  border: 5px solid #ff0000;
-  border-radius: 15px;
-  color: rgb(255, 251, 251);
-  padding: 10px 24px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  font-family: 'Times New Roman', Times, serif;
-}
-
-.eventList{
-  background-color: #f79ade;
-  border: 5px solid #ff0000;
-  border-radius: 15px;
-  color: rgb(255, 251, 251);
-  text-align: center;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: bold;
-  font-family: 'Times New Roman', Times, serif;
- 
+.eventContainer {
+  margin: 20px auto;
+  padding: 10px;
+  border: 2px solid red;
+  border-radius: 10px;
+  background-color: #f3c6f3;
+  width: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  width: 200px;
-  aspect-ratio: 1 / 1;
-
-
-
 }
+
+.eventList {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.eventActions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.deleteEventBtn,
+.editEventBtn {
+  background-color: #ffb6c1;
+  border: 2px solid red;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.deleteEventBtn:hover,
+.editEventBtn:hover {
+  background-color: #ff6f91;
+}
+

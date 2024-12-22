@@ -11,109 +11,18 @@ import Registrera from './components/Registrera';
 import Quote from './components/Quote';
 import { v4 as uuidv4 } from 'uuid';
 import Startsida from './components/Startsida';
-import AddEvent from './components/AddEvent';
 import { useLocation } from 'react-router-dom';
-import EventItem from './components/EventItem';
+
 
 
 function App() { 
   const navigate = useNavigate()
   const location = useLocation()
 
-      const [name, setName] = useState("");
-      const [startTime, setStartTime] = useState("");
-      const [endTime, setEndTime] = useState("");
-      const [startDate, setStartDate] = useState("");
-      const [endDate, setEndDate] = useState("");
-      const [isEditing, setIsEditing] = useState(false);
-      const [editedEvent, setEditedEvent] =useState ("");
-      const [filterMode, setFilterMode] = useState("all")
-
-
-      function addEvent(e) {
-       
-        e.preventDefault();
-   
-        const id = new Date().getTime();
-        const userId = currentUser ? currentUser.userId: null;
-
-
-        if (name && startTime && endTime && startDate && endDate) {
-            const newEvent = { id, name, startTime, endTime, startDate, endDate, userId };
-   
-            setEvents((prevEvents) => {
-                const updatedEvents = [...prevEvents, newEvent];
-                localStorage.setItem("events", JSON.stringify(updatedEvents));
-                return updatedEvents;
-            });
-   
-            setName("");
-            setStartTime("");
-            setEndTime("");
-            setStartDate("");
-            setEndDate("");
-        } else {
-            alert("Fyll i alla fält!");
-        }
-    }
-   
-
-
-    function deleteEvent (eventToDelete){
-       
-        setEvents((prevEvents) => {
-        const updatedEvents = prevEvents.filter((event) => event.id !== eventToDelete.id)
-        localStorage.setItem("events", JSON.stringify(updatedEvents))
-        return (updatedEvents)
-        })
-    }
-
-
-    function handleEditEvent(eventItem) {
-        setIsEditing(true);
-        setEditedEvent(eventItem);
-        setName(eventItem.name);
-        setStartTime(eventItem.startTime);
-        setStartDate(eventItem.startDate);
-        setEndTime(eventItem.endTime);
-        setEndDate(eventItem.endDate);
-    }
-   
-
-
-    function updateEvent(e) {
-        e.preventDefault();
-   
-        setEvents((prevEvents) => {
-            const updatedEvents = prevEvents.map((event) =>
-                event.id === editedEvent.id
-                    ? { ...event, name, startTime, startDate, endTime, endDate }
-                    : event
-            );
-   
-            localStorage.setItem("events", JSON.stringify(updatedEvents));
-            return updatedEvents;
-        });
-   
-        setIsEditing(false);
-        setEditedEvent(null);
-        setName("");
-        setStartTime("");
-        setStartDate("");
-        setEndTime("");
-        setEndDate("");
-    }
-
-
-    function toggleFilter() {
-        if (filterMode === "all") {
-            setFilterMode("upcoming")
-        } else if (filterMode === "upcoming") {
-            setFilterMode("past")
-        } else {
-            setFilterMode("all")
-        }
-    }
+  const [events, setEvents] = useState(() => {
+    const savedEvents = localStorage.getItem("events");
+    return savedEvents ? JSON.parse(savedEvents) : [];
+  });
 
 
   const handleLogin = (user) => {
@@ -322,66 +231,38 @@ useEffect(() => {
     setHabits([...habits, habit])
   }
 
-  const getUserEvents = () => {
-    return currentUser ? events.filter((event) => event.userId === currentUser.userId) : [];
-  };
-
-  const [events, setEvents] = useState(() => {
-    const savedEvents = localStorage.getItem("events");
-    return savedEvents ? JSON.parse(savedEvents) : [];
-  });
-
-  
-
-  const newEventId = () => {
-    return currentUser ? currentUser.userId: null
-   };
 
   const addUser = (user) => {
     setUsers((prevUsers) => [...prevUsers, user]);
   };
 
 
-  const filteredEvents = events.filter((event) => event.userId === (currentUser?.userId || null));
+  const addEvent = (newEvent) => {
+    const updatedEvent = { ...newEvent, userId: currentUser.userId };
+    setEvents((prevEvents) => {
+      const updatedEvents = [...prevEvents, updatedEvent];
+      localStorage.setItem("events", JSON.stringify(updatedEvents));
+      return updatedEvents;
+    });
+  };
 
-  const sortedFilteredEvents = filteredEvents
-      .sort((a, b) => new Date(`${a.endDate}T${a.endTime}`).getTime() - new Date(`${b.endDate}T${b.endTime}`).getTime())
-      .filter((event) => {
-          const eventTime = new Date(`${event.endDate}T${event.endTime}`).getTime();
-          if (filterMode === "upcoming") {
-              return eventTime >= new Date().getTime();
-          } else if (filterMode === "past") {
-              return eventTime < new Date().getTime();
-          }
-          return true;
-      });
+  const handleAddEvent = (newEvent) => {
+    addEvent(newEvent);
+    navigate("/start");
+  };
 
 
   useEffect(() => {
     localStorage.setItem("events", JSON.stringify(events));
   }, [events]);
 
-  useEffect(() => {
-          const eventsFromLocalStorage = JSON.parse(
-          localStorage.getItem("events")
-      );
-       if (eventsFromLocalStorage) {
-          setEvents(eventsFromLocalStorage)
-       } else {
-          setEvents([])
-       }
-      }, [])
+
+  const getUserEvents = () => (currentUser ? events.filter((event) => event.userId === currentUser.userId) : []);
 
 
-
- 
-
-  
 
   return (
     <>
-
-    
 
     <h1 style={{fontFamily:"fantasy", color:"pink", 
       textShadow:"-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"}}> 
@@ -391,7 +272,7 @@ useEffect(() => {
 
   {currentUser &&   
      <div>
-      <h2>Välkommen, {currentUser.profil}</h2>
+      <h3>Välkommen, {currentUser.profil}</h3>
       <Quote/>
     </div>
      
@@ -399,62 +280,26 @@ useEffect(() => {
 
 
 
-
     <Routes>
      
       <Route path="/" element = {<Login onLogin={handleLogin}/>} />
-      <Route path="/start" element={<Startsida habits={getUserHabits()} todos={todos} events ={getUserEvents()}/>} />
+      <Route path="/start" element={<Startsida habits={getUserHabits()} todos={todos} events={getUserEvents()}/>} />
       <Route path="/habits" element={<Habitsx habits={getUserHabits()} setHabits={setHabits}/>}/>
       <Route path="/newhabit" element={<NewHabit addHabit={addHabit} newHabitId={newHabitId}/>}/>
       <Route path = "/reg" element = {<Registrera addUser={addUser}/>}/>
-      <Route path ="/events" element = {<EventItem/>}/>
-      <Route path="/AddEvent" element={ <AddEvent
-        addEvent={addEvent}
-        name={name}
-        startTime={startTime}
-        endTime={endTime}
-        startDate={startDate}
-        endDate={endDate}
-        setName={setName}
-        setStartTime={setStartTime}
-        setEndTime={setEndTime}
-        setStartDate={setStartDate}
-        setEndDate={setEndDate}
-      />} />
-      <Route path="/Events" element={<Events
-          sortedFilteredEvents = {sortedFilteredEvents}
-          filteredEvents = {filteredEvents}
-          events={events}
-          currentUser={currentUser}
-          addEvent={addEvent}
-          name={name} setName={setName}
-          startTime={startTime} setStartTime={setStartTime}
-          endTime={endTime} setEndTime={setEndTime}
-          startDate={startDate} setStartDate={setStartDate}
-          endDate={endDate} setEndDate={setEndDate}
-          isEditing={isEditing} setIsEditing={setIsEditing}
-          editedEvent={editedEvent} setEditedEvent={setEditedEvent}
-          filterMode={filterMode} setFilterMode={setFilterMode}
-          deleteEvent={deleteEvent}
-          handleEditEvent={handleEditEvent}
-          updateEvent={updateEvent}
-          toggleFilter={toggleFilter}
-        />} />
-
-        <Route path = "/TodoWrapper" element = {<TodoWrapper currentUser={currentUser} setTodos={setTodos} addNewTodo={addNewTodo}
+      <Route path="/Events" element={<Events events={getUserEvents()} currentUser={currentUser} addEvent={handleAddEvent} setEvents={setEvents} />} />    
+      <Route path = "/TodoWrapper" element = {<TodoWrapper currentUser={currentUser} setTodos={setTodos} addNewTodo={addNewTodo}
         changeStatus = {changeStatus} deleteTodo ={deleteTodo} reDoTodo={reDoTodo} editTask= {editTask} todos={todos}/>} />
-       
 
+   </Routes>
 
-    </Routes>
     <br />
     <br />
 
     {currentUser && 
-    <div>
-      <h2>Välkommen, {currentUser.profil}</h2>
-      <button style={{backgroundColor:"pink", fontFamily:"fantasy"}} onClick={handleLogout}>Logga ut</button>
-    </div>
+       <div>
+          <button style={{backgroundColor:"pink", fontFamily:"fantasy"}} onClick={handleLogout}>Logga ut</button>
+       </div>
       
       }
 
